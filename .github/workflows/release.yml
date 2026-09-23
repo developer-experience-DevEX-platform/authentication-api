@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  ci:
+    permissions:
+      contents: read
+    uses: developer-experience-DevEX-platform/ci-cd-templates/.github/workflows/go-ci.yml@v1.8.0
+    secrets: inherit
+    with:
+      has_integration_tests: true
+
+  release:
+    needs: ci
+    if: vars.ECR_REPOSITORY != ''
+    permissions:
+      contents: read
+      id-token: write
+    uses: developer-experience-DevEX-platform/ci-cd-templates/.github/workflows/container-release.yml@v1.8.0
+
+  publish-docs:
+    needs: ci
+    if: vars.TECHDOCS_S3_BUCKET != ''
+    permissions:
+      contents: read
+      id-token: write
+    uses: developer-experience-DevEX-platform/ci-cd-templates/.github/workflows/techdocs-publish.yml@v1.8.0
+
+  deploy-staging:
+    name: Deploy to staging
+    needs: release
+    if: vars.ECR_REPOSITORY != ''
+    permissions:
+      contents: read
+    uses: developer-experience-DevEX-platform/ci-cd-templates/.github/workflows/kubernetes-gitops-cd.yml@v1.8.0
+    secrets: inherit

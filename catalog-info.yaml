@@ -1,0 +1,21 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: authentication-api
+  description: Handles users auth
+  annotations:
+    github.com/project-slug: developer-experience-DevEX-platform/authentication-api
+    backstage.io/techdocs-ref: url:https://github.com/developer-experience-DevEX-platform/authentication-api/tree/main/
+  links:
+    - title: Repository
+      url: https://github.com/developer-experience-DevEX-platform/authentication-api
+    - title: Staging GitOps
+      url: https://github.com/developer-experience-DevEX-platform/platform-gitops/tree/main/environments/staging/authentication-api
+    - title: Production GitOps
+      url: https://github.com/developer-experience-DevEX-platform/platform-gitops/tree/main/environments/production/authentication-api
+    - title: Infrastructure stack
+      url: https://github.com/developer-experience-DevEX-platform/platform-infrastructure/tree/main/services/authentication-api
+spec:
+  type: service
+  lifecycle: experimental
+  owner: group:default/developer-experience

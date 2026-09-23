@@ -1,0 +1,9 @@
+.git
+.githooks
+.github
+docs
+coverage.out
+.env
+.env.*
+*.md
+mkdocs.yml

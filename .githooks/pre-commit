@@ -1,0 +1,11 @@
+#!/bin/sh
+blocked=$(git diff --cached --name-only --diff-filter=ACM |
+  grep -E '(^|/)\.env($|\..+)$' |
+  grep -vE '(^|/)\.env\.example$' || true)
+
+if [ -n "$blocked" ]; then
+  echo "Refusing to commit env files:"
+  echo "$blocked"
+  echo "Local values stay in .env. The contract is .env.example."
+  exit 1
+fi

@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches-ignore:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    permissions:
+      contents: read
+    uses: developer-experience-DevEX-platform/ci-cd-templates/.github/workflows/go-ci.yml@v1.8.0
+    secrets: inherit
+    with:
+      has_integration_tests: true
+
+  container-validation:
+    if: github.event_name == 'pull_request'
+    needs: ci
+    permissions:
+      contents: read
+      id-token: write
+    uses: developer-experience-DevEX-platform/ci-cd-templates/.github/workflows/container-release.yml@v1.8.0

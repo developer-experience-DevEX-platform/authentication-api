@@ -1,0 +1,5 @@
+site_name: 'authentication-api'
+site_description: 'Handles users auth'
+
+plugins:
+  - techdocs-core
